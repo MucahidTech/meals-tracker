@@ -1,7 +1,7 @@
 import * as Device from "expo-device";
 import { Platform, Text, ScrollView } from "react-native";
 import { globalStyles } from "@/styles/global";
-import HomeHeader from "./HomeHeader";
+import HomeHeader from "../components/HomeHeader";
 
 export default function HomeScreen() {
   return (

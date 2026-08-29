@@ -1,10 +1,15 @@
 import { View, StyleSheet } from "react-native";
-import HomeScreen from "./screens/home";
+import { Link } from "expo-router";
+
+import HomeScreen from "./(tabs)/index";
 
 export default function Index() {
   return (
     <View style={styles.container}>
       <HomeScreen />
+      <Link href="/meals" style={{ fontSize: 18, color: "#007bff" }}>
+        Go to Meals
+      </Link>
     </View>
   );
 }
