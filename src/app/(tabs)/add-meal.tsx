@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics";
 import { addMeal } from "@/storage/meals";
 import { colors, globalStyles } from "@/styles/global";
 import { router } from "expo-router";
@@ -32,6 +33,7 @@ export default function AddMealScreen() {
         carbs: Number(carbs) || 0,
         fat: Number(fat) || 0,
       });
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       Alert.alert("Success", "Meal added successfully!", [
         { text: "OK", onPress: () => router.push("/") },
       ]);
