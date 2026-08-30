@@ -41,7 +41,13 @@ export default function MealItem({
     <TouchableOpacity style={styles.container} onLongPress={handleLongPress}>
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.macros}>
-        {calories} cal • {protein}g P • {carbs}g C • {fat}g F
+        <Text style={styles.calories}>{calories} cal</Text>
+        {" • "}
+        <Text style={styles.protein}>{protein}g P</Text>
+        {" • "}
+        <Text style={styles.carbs}>{carbs}g C</Text>
+        {" • "}
+        <Text style={styles.fat}>{fat}g F</Text>
       </Text>
     </TouchableOpacity>
   );
@@ -50,18 +56,24 @@ export default function MealItem({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.surface,
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 16,
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   name: {
     fontSize: 16,
     fontWeight: "600",
     color: colors.text,
+    marginBottom: 4,
   },
   macros: {
     fontSize: 13,
     color: colors.textSecondary,
-    marginTop: 4,
   },
+  calories: { color: colors.calories },
+  protein: { color: colors.protein },
+  carbs: { color: colors.carbs },
+  fat: { color: colors.fat },
 });
