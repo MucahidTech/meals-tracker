@@ -6,6 +6,7 @@ import HomeHeader from "@/components/HomeHeader";
 import MacroGrid from "@/components/MacroGrid";
 import RecentMeals from "@/components/RecentMeals";
 import ShareButton from "@/components/ShareButton";
+import CopyButton from "@/components/CopyButton";
 import { getMeals, Meal } from "@/storage/meals";
 
 export default function HomeScreen() {
@@ -26,11 +27,12 @@ export default function HomeScreen() {
   return (
     <ScrollView style={globalStyles.container}>
       <View style={globalStyles.header}>
-        <Text style={globalStyles.title}>MacroZone</Text>
+        <Text style={globalStyles.title}>Meals-Tracker</Text>
         <ShareButton meals={meals} />
       </View>
       <HomeHeader />
       <MacroGrid meals={meals} />
+      <CopyButton meals={meals} />
       <RecentMeals meals={meals} onDelete={loadMeals} />
     </ScrollView>
   );
