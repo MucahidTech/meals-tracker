@@ -12,18 +12,29 @@ import { getMeals, Meal } from "@/storage/meals";
 
 export default function HomeScreen() {
   const [meals, setMeals] = useState<Meal[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const loadMeals = async () => {
-    const data = await getMeals();
-    setMeals(data);
-    console.log("Loaded meals:", data);
-  };
+  const loadMeals = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await getMeals();
+      setMeals(data);
+    } catch (error) {
+      console.error("Failed to load meals:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
       loadMeals();
-    }, []),
+    }, [loadMeals]),
   );
+
+  const handleMealChange = useCallback(async () => {
+    await loadMeals();
+  }, [loadMeals]);
 
   return (
     <ScrollView style={globalStyles.container}>
@@ -35,7 +46,11 @@ export default function HomeScreen() {
       <MacroGrid meals={meals} />
       <CopyButton meals={meals} />
       <ReminderToggle />
-      <RecentMeals meals={meals} onDelete={loadMeals} />
+      <RecentMeals
+        meals={meals}
+        onDelete={loadMeals}
+        onRefresh={handleMealChange}
+      />
     </ScrollView>
   );
 }

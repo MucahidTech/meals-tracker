@@ -1,18 +1,24 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { globalStyles } from "@/styles/global";
 import { Meal } from "@/storage/meals";
 import MealItem from "./MealItem";
 
 type RecentMealsProps = {
   meals: Meal[];
   onDelete: () => void;
+  onRefresh?: () => void;
 };
 
-export default function RecentMeals({ meals, onDelete }: RecentMealsProps) {
+export default function RecentMeals({
+  meals,
+  onDelete,
+  onRefresh,
+}: RecentMealsProps) {
   return (
     <View style={{ marginTop: 30 }}>
-      <Text style={styles.sectionTitle}>Recent Meals</Text>
+      <Text style={globalStyles.sectionTitle}>Recent Meals</Text>
       {meals.length === 0 ? (
-        <Text style={styles.empty}>No meals logged yet.</Text>
+        <Text style={globalStyles.empty}>No meals logged yet.</Text>
       ) : (
         meals
           .slice(0, 5)
@@ -32,16 +38,3 @@ export default function RecentMeals({ meals, onDelete }: RecentMealsProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#ffffff",
-    marginBottom: 16,
-  },
-  empty: {
-    color: "#a0a0b0",
-    fontSize: 14,
-  },
-});
