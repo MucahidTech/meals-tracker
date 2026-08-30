@@ -1,12 +1,35 @@
+import { getSettings, addSettingsChangeListener } from "@/storage/settings";
+import { Meal } from "@/storage/meals";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MacroCard from "./MacroCard";
-import { Meal } from "@/storage/meals";
 
 type MacroGridProps = {
   meals: Meal[];
 };
 
 export default function MacroGrid({ meals }: MacroGridProps) {
+  const [goals, setGoals] = useState({
+    calories: 2000,
+    protein: 150,
+    carbs: 250,
+    fat: 65,
+  });
+
+  useEffect(() => {
+    const loadGoals = async () => {
+      const settings = await getSettings();
+      setGoals(settings.dailyGoals);
+    };
+    loadGoals();
+
+    const unsubscribe = addSettingsChangeListener((settings) => {
+      setGoals(settings.dailyGoals);
+    });
+
+    return unsubscribe;
+  }, []);
+
   const totals = meals.reduce(
     (acc, meal) => ({
       calories: acc.calories + meal.calories,
@@ -22,25 +45,25 @@ export default function MacroGrid({ meals }: MacroGridProps) {
       <MacroCard
         label="Calories"
         value={`${totals.calories}`}
-        goal="2,000"
+        goal={`${goals.calories}`}
         color="#ff6b6b"
       />
       <MacroCard
         label="Protein"
         value={`${totals.protein}g`}
-        goal="150g"
+        goal={`${goals.protein}g`}
         color="#4ecdc4"
       />
       <MacroCard
         label="Carbs"
         value={`${totals.carbs}g`}
-        goal="250g"
+        goal={`${goals.carbs}g`}
         color="#ffd93d"
       />
       <MacroCard
         label="Fat"
         value={`${totals.fat}g`}
-        goal="65g"
+        goal={`${goals.fat}g`}
         color="#6bcb77"
       />
     </View>
