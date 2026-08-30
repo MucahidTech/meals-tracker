@@ -60,3 +60,26 @@ export const clearAllMeals = async (): Promise<void> => {
   await AsyncStorage.removeItem(MEALS_KEY);
   await notifyListeners();
 };
+
+export const updateMeal = async (
+  id: string,
+  updatedMeal: Omit<Meal, "id" | "createdAt">,
+): Promise<Meal> => {
+  const meals = await getMeals();
+  const index = meals.findIndex((meal) => meal.id === id);
+
+  if (index === -1) {
+    throw new Error("Meal not found");
+  }
+
+  const meal: Meal = {
+    ...updatedMeal,
+    id,
+    createdAt: meals[index].createdAt,
+  };
+
+  meals[index] = meal;
+  await AsyncStorage.setItem(MEALS_KEY, JSON.stringify(meals));
+  await notifyListeners();
+  return meal;
+};
